@@ -125,9 +125,9 @@ class TorchClassifier:
             # TEST
             model.eval()
             testing_losses, testing_preds_list, testing_trues_list = 0, [], []  # Upate: loss, preds, trues
-            tk0 = tqdm(testloader, total=int(len(testloader)))  # add progress bar
+            tk1 = tqdm(testloader, total=int(len(testloader)))  # add progress bar
 
-            for bi, d in enumerate(tk0):
+            for bi, d in enumerate(tk1):
                 inputs = d[0].to(device, dtype=torch.float)  # X
                 labels = d[1].to(device, dtype=torch.int64)  # y
 
@@ -146,12 +146,12 @@ class TorchClassifier:
             test_acc, test_precision, test_recall, test_f1 = self.estimate(y_test=test_trues, y_pred=test_preds)
 
             print("Traning losses:{}; Accuary:{}, Precision:{}, Recall:{}, F1:{}".
-                  format(training_losses / x_train.shape[0],
+                  format(training_losses / len(tk0),
                          round(train_acc, 3), round(train_precision, 3),
                          round(train_recall, 3), round(train_f1, 3)))
 
             print("Testing losses:{}; Accuary:{}, Precision:{}, Recall:{}, F1:{}".
-                  format(testing_losses / x_test.shape[0],
+                  format(testing_losses / len(tk1),
                          round(test_acc, 3), round(test_precision, 3),
                          round(test_recall, 3), round(test_f1, 3)))
             # save the best parameters
