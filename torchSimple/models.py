@@ -202,4 +202,3 @@ class TorchClassifier:
             testing_preds_list.append(torch.argmax(outputs, 1).cpu().numpy())  # preds
 
         return np.concatenate(testing_preds_list)
-
