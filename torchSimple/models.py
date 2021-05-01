@@ -139,7 +139,7 @@ class TorchClassifier:
                 testing_preds_list.append(torch.argmax(outputs, 1).cpu().numpy())  # preds
                 testing_trues_list.append(labels.cpu().numpy())  # trues
 
-                tk0.set_postfix(loss=loss)  # update progress bar
+                tk1.set_postfix(loss=loss)  # update progress bar
 
             test_preds = np.concatenate(testing_preds_list)
             test_trues = np.concatenate(testing_trues_list)
@@ -155,8 +155,8 @@ class TorchClassifier:
                          round(test_acc, 3), round(test_precision, 3),
                          round(test_recall, 3), round(test_f1, 3)))
             # save the best parameters
-            if best_f1 < test_f1:
-                best_f1 = test_f1
+            if best_f1 < train_f1:
+                best_f1 = train_f1
                 save_weights = os.path.join(self.save_folder, '{}_{}.pt'.
                                             format('model_weights', str(round(best_f1, 3))))
                 torch.save(model.state_dict(), save_weights)
